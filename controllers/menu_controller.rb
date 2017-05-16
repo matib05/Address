@@ -15,6 +15,7 @@ class MenuController
       puts "4 - Search for an entry"
       puts "5 - Import entries from a CSV"
       puts "6 - Exit"
+      puts "7 - Annihilate all entries!"
       puts "Enter your selection"
       
       selection = gets.to_i
@@ -45,6 +46,9 @@ class MenuController
          when 6
             puts "Goodbye!"
             exit(0)
+         when 7
+            system "clear"
+            annihilate_all
          else
             system "clear"
             puts "Sorry that is not a valid entry"
@@ -56,13 +60,12 @@ class MenuController
    
    
    def view_all_entries
-         system "clear"
-         address_book.entries.each do |entry|
-            puts entry.to_s
+      system "clear"
+      address_book.entries.each do |entry|
+         puts entry.to_s
             
-            entry_submenu(entry)
-         end
-         
+         entry_submenu(entry)
+      end
    end
    
    def view_entry_number
@@ -80,21 +83,18 @@ class MenuController
    end
       
    def create_entry
-         system "clear"
-         puts "New Address Book entry"
-         print "Name: "
-         name = gets.chomp
-         print "Phone Number: "
-         phone_number = gets.chomp
-         print "Email: "
-         email = gets.chomp
+      system "clear"
+      puts "New Address Book entry"
+      print "Name: "
+      name = gets.chomp
+      print "Phone Number: "
+      phone_number = gets.chomp
+      print "Email: "
+      email = gets.chomp
          
-         address_book.add_entry(name, phone_number, email)
-         
-         system "clear"
-         
-         puts "New entry created"
-         
+      address_book.add_entry(name, phone_number, email)
+      system "clear"
+      puts "New entry created"
    end
       
    def search_entries
@@ -159,7 +159,7 @@ class MenuController
    
    def delete_entry(entry)
       address_book.entries.delete(entry)
-      puts "#{entry.name}has been deleted"
+      puts "#{entry.name} has been deleted"
    end
    
    def edit_entry(entry)
@@ -202,6 +202,28 @@ class MenuController
             puts "#{selection} is not a valid entry"
             puts entry.to_s
             search_submenu(entry)
+      end
+   end
+   
+   def annihilate_all
+      puts "Are you sure you want to delete all entries?(Y or N)"
+      answer = gets.chomp
+      if answer.downcase == "y"
+         puts "Again, Are you sure?! (Y or N)"
+         answer = gets.chomp
+         if answer.downcase == "y"
+            
+            num = address_book.entries.length - 1
+            while num >=0  
+               delete_entry(address_book.entries[num])
+               num -= 1
+            end
+            main_menu
+         else
+            main_menu
+         end
+      else
+         main_menu
       end
    end
 end

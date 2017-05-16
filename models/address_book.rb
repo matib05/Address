@@ -21,8 +21,7 @@ require "csv"
         def remove_entry(name, phone_number, email)
             entries.each do |entry|
                 if entry.name == name and entry.phone_number == phone_number and entry.email == email
-                    i = entry
-                    entries.delete(i)
+                    entries.delete(entry)
                 end
             end
         end
