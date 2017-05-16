@@ -52,4 +52,13 @@ require "csv"
             end
             return nil
         end
+        
+        def iterative_search(name)
+            entries.each do |el|
+                if el.name == name
+                  return el
+                end
+            end
+            return nil
+        end
     end
